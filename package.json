@@ -24,6 +24,7 @@
         "@babel/plugin-proposal-class-properties": "^7.12.1",
         "@babel/plugin-transform-runtime": "^7.12.10",
         "google-map-react": "^2.1.9",
+        "react-loading": "^2.0.3",
         "react-router-dom": "^5.2.0"
     }
 }
