@@ -11,15 +11,11 @@ class Home extends Component {
         return (
            <div>
                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                   <Link className={"navbar-brand"} to={"/"}> Symfony React Project </Link>
+                   <Link className={"navbar-brand"} to={"/"}> Map </Link>
                    <div className="collapse navbar-collapse" id="navbarText">
                        <ul className="navbar-nav mr-auto">
                            <li className="nav-item">
-                               <Link className={"nav-link"} to={"/posts"}> Posts </Link>
-                           </li>
-    
-                           <li className="nav-item">
-                               <Link className={"nav-link"} to={"/users"}> Users </Link>
+                               <Link className={"nav-link"} to={"/posts"}> History </Link>
                            </li>
                        </ul>
                    </div>
@@ -27,7 +23,6 @@ class Home extends Component {
                <Switch>
                    <Redirect exact from="/" to="/users" />
                    <Route path="/users" component={Users} />
-                   <Route path="/posts" component={Posts} />
                    <Route path="/posts" component={Posts} />
                </Switch>
            </div>
