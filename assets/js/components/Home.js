@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {Route, Switch,Redirect, Link, withRouter} from 'react-router-dom';
 import Users from '../components/User';
 import Posts from '../components/Post';
+import Map from '../components/Map';
     
 class Home extends Component {
     
@@ -20,6 +21,9 @@ class Home extends Component {
                        </ul>
                    </div>
                </nav>
+               <div>
+                   <Map></Map>
+               </div>
                <Switch>
                    <Redirect exact from="/" to="/users" />
                    <Route path="/users" component={Users} />
