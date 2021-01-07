@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\HistoryEntryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=HistoryEntryRepository::class)
+ * @ApiResource(attributes={"pagination_items_per_page"=10})
  */
 class HistoryEntry
 {

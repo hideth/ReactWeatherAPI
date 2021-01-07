@@ -5,6 +5,8 @@ import '../css/app.css';
 import Home from './components/Home';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
+require("bootstrap/scss/bootstrap.scss");
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // ReactDOM.render(<Router><Home /></Router>, document.getElementById('root'));
 const options = {

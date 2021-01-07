@@ -1,10 +1,12 @@
 {
     "devDependencies": {
-        "@babel/preset-react": "^7.12.10",
+        "@babel/preset-react": "7.0.0",
         "@symfony/stimulus-bridge": "^1.1.0",
         "@symfony/webpack-encore": "^0.32.0",
         "axios": "^0.21.1",
         "core-js": "^3.0.0",
+        "less-loader": "6.2.0",
+        "node-sass": "^5.0.0",
         "prop-types": "^15.7.2",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
@@ -23,10 +25,14 @@
     "dependencies": {
         "@babel/plugin-proposal-class-properties": "^7.12.1",
         "@babel/plugin-transform-runtime": "^7.12.10",
+        "bootstrap": "^4.5.3",
         "google-map-react": "^2.1.9",
+        "query-string": "^6.13.8",
         "react-alert": "^7.0.2",
         "react-alert-template-basic": "^1.0.0",
+        "react-js-pagination": "^3.0.3",
         "react-loading": "^2.0.3",
-        "react-router-dom": "^5.2.0"
+        "react-router-dom": "^5.2.0",
+        "sass-loader": "^10.1.0"
     }
 }

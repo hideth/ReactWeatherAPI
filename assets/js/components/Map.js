@@ -30,7 +30,7 @@ export default function Map() {
     })
       .then(function (response) {
         setLoading(false);
-        alert.success('New entry for '+ response.data.city + ' has been added!');
+        alert.success('New entry for ' + response.data.city + ' has been added!');
       })
       .catch(function () {
         setLoading(false);
