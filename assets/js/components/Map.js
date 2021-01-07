@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
+import { useAlert } from "react-alert";
 
 const defaultProps = {
   center: {
@@ -11,22 +12,16 @@ const defaultProps = {
   zoom: 3,
   apiKey: 'AIzaSyBRjeVSxqw12aExgf0sZvfXoGRJERqIlMs',
 };
-
-class SimpleMap extends Component {
-  constructor() {
-    super();
-    this.state = { loading: false }
-    this.request = this.request.bind(this);
-  }
-  
-  request(props) {
+export default function Map() {
+  const [loading, setLoading] = useState(false);
+  const alert = useAlert();
+  const request = (props) => {
     let params = {
       lat: props.lat,
       lng: props.lng,
     }
     let url = '/api/weather/add';
-    this.setState({ loading: true });
-    var self = this;
+    setLoading(true);
     axios.post(url, params, {
       "headers": {
         "content-type": "application/json",
@@ -34,27 +29,28 @@ class SimpleMap extends Component {
 
     })
       .then(function (response) {
-        self.setState({ loading: false });
+        setLoading(false);
         console.log(response);
+        alert.success('New entry for '+ response.data.city + ' has been added!');
+      })
+      .catch(function () {
+        alert.error('Location unavailable!');
+        setLoading(false);
       })
   }
 
-  render() {
-    return (
-      <div style={{ height: '100vh', width: '100%' }}>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 10 }}>
-          {this.state.loading ? <ReactLoading color='black' /> : <div></div>}
-        </div>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: defaultProps.apiKey }}
-          defaultCenter={defaultProps.center}
-          defaultZoom={defaultProps.zoom}
-          onClick={this.request}
-        >
-        </GoogleMapReact>
+  return (
+    <div style={{ height: '100vh', width: '100%' }}>
+      <div style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 10 }}>
+        {loading ? <ReactLoading color='black' /> : <div></div>}
       </div>
-    );
-  }
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: defaultProps.apiKey }}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
+        onClick={request}
+      >
+      </GoogleMapReact>
+    </div>
+  )
 }
-
-export default SimpleMap;
