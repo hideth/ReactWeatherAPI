@@ -30,12 +30,11 @@ export default function Map() {
     })
       .then(function (response) {
         setLoading(false);
-        console.log(response);
         alert.success('New entry for '+ response.data.city + ' has been added!');
       })
       .catch(function () {
-        alert.error('Location unavailable!');
         setLoading(false);
+        alert.error('Location unavailable!');
       })
   }
 
