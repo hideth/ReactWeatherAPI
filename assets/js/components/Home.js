@@ -1,12 +1,9 @@
-// ./assets/js/components/Home.js
-
 import React, { Component } from 'react';
-import { Route, Switch, Redirect, Link, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import Users from './History';
 import Map from '../components/Map';
 
 class Home extends Component {
-
     render() {
         return (
             <div>

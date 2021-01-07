@@ -19,32 +19,26 @@ class HistoryEntryRepository extends ServiceEntityRepository
         parent::__construct($registry, HistoryEntry::class);
     }
 
-    // /**
-    //  * @return HistoryEntry[] Returns an array of HistoryEntry objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getBasicStats()
     {
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('h.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        return $this->createQueryBuilder('historyEntry')
+            ->select('historyEntry')
+            ->addSelect('MAX(historyEntry.temperature) as MAX_TEMPERATURE')
+            ->addSelect('MIN(historyEntry.temperature) as MIN_TEMPERATURE')
+            ->addSelect('AVG(historyEntry.temperature) as AVG_TEMPERATURE')
+            ->addSelect('COUNT(historyEntry.id) as COUNT')
+            ->getQuery()->getArrayResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?HistoryEntry
+    public function getMostSearchedCity()
     {
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->createQueryBuilder('historyEntry')
+            ->addSelect('count(historyEntry.city) as count')
+            ->groupBy('historyEntry.city')
+            ->orderBy('count', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()->getArrayResult()
+            ;
     }
-    */
 }

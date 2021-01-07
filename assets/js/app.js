@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '../css/app.css';
 import Home from './components/Home';
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import { positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 require("bootstrap/scss/bootstrap.scss");
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// ReactDOM.render(<Router><Home /></Router>, document.getElementById('root'));
 const options = {
-    timeout: 5000,
+    timeout: 2000,
     position: positions.BOTTOM_CENTER
 };
 

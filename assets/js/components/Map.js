@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import axios from 'axios';
-import ReactLoading from 'react-loading';
 import { useAlert } from "react-alert";
+import LoadingCircle from "./LoadingCircle";
 
 const defaultProps = {
   center: {
@@ -39,10 +39,8 @@ export default function Map() {
   }
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <div style={{ position: 'absolute', top: '50%', left: '50%', zIndex: 10 }}>
-        {loading ? <ReactLoading color='black' /> : <div></div>}
-      </div>
+    <div style={{ height: 'calc(100vh - 56px)', width: '100%' }}>
+        {loading ? <LoadingCircle/> : null}
       <GoogleMapReact
         bootstrapURLKeys={{ key: defaultProps.apiKey }}
         defaultCenter={defaultProps.center}

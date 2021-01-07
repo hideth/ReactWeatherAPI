@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\HistoryEntry;
-use http\Env\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,19 +22,25 @@ class DefaultController extends AbstractController
      * @var SerializerInterface
      */
     private $serializer;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
     /**
      * DefaultController constructor.
+     * @param SerializerInterface $serializer
      */
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(SerializerInterface $serializer, EntityManagerInterface $entityManager)
     {
         $this->serializer = $serializer;
+        $this->entityManager = $entityManager;
     }
 
     /**
      * @Route("/{reactRouting}", name="home", defaults={"reactRouting": null})
      */
-    public function index()
+    public function index(): Response
     {
         return $this->render('default/index.html.twig');
     }
@@ -65,52 +71,24 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/api/users", name="users")
+     * @Route("/api/weather/statistics", name="statistics")
      * @return JsonResponse
      */
-    public function getUsers()
+    public function getStatisticsAction()
     {
-        $users = [
-            [
-                'id' => 1,
-                'name' => 'Olususi Oluyemi',
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-                'imageURL' => 'https://randomuser.me/api/portraits/women/50.jpg'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Camila Terry',
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-                'imageURL' => 'https://randomuser.me/api/portraits/men/42.jpg'
-            ],
-            [
-                'id' => 3,
-                'name' => 'Joel Williamson',
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-                'imageURL' => 'https://randomuser.me/api/portraits/women/67.jpg'
-            ],
-            [
-                'id' => 4,
-                'name' => 'Deann Payne',
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-                'imageURL' => 'https://randomuser.me/api/portraits/women/50.jpg'
-            ],
-            [
-                'id' => 5,
-                'name' => 'Donald Perkins',
-                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-                'imageURL' => 'https://randomuser.me/api/portraits/men/89.jpg'
-            ]
+        $historyEntryRepository = $this->entityManager->getRepository(HistoryEntry::class);
+        $basicStats = $historyEntryRepository->getBasicStats();
+        $mostSearchedCity = $historyEntryRepository->getMostSearchedCity();
+
+        $response = [
+            'MAX_TEMPERATURE' => $basicStats[0]['MAX_TEMPERATURE'],
+            'MIN_TEMPERATURE' => $basicStats[0]['MIN_TEMPERATURE'],
+            'AVG_TEMPERATURE' => $basicStats[0]['AVG_TEMPERATURE'],
+            'COUNT' => $basicStats[0]['COUNT'],
+            'MOST_SEARCHED_CITY' => $mostSearchedCity[0][0]['city'],
         ];
 
-        $response = new Response();
-
-        $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-
-        $response->setContent(json_encode($users));
-
-        return $response;
+        return new JsonResponse($response);
     }
 
     /**
@@ -155,7 +133,6 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @param $serializer
      * @param HistoryEntry $historyEntry
      * @return mixed
      */
