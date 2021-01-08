@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import LoadingCircle from "./LoadingCircle";
+import { useAlert } from "react-alert";
 
 export default function Statistics() {
+    const alert = useAlert();
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState([]);
 
@@ -10,6 +12,10 @@ export default function Statistics() {
         axios.get('/api/weather/statistics').then(response => {
             setLoading(false);
             setStats(response.data)
+        })
+        .catch(response => {
+            setLoading(false);
+            alert.error('No entries yet!');
         });
     }
     useEffect(() => {

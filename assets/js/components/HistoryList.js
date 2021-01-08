@@ -11,18 +11,20 @@ export default function HistoryList() {
     const [totalItemsCount, setTotalItemsCount] = useState(0);
 
     useEffect(() => {
-        getUsers(activePage);
+        getHistoryEntries(activePage);
     }, []);
 
-    const getUsers = (params) => {
+    const getHistoryEntries = (params) => {
         setLoading(true);
-
         axios.get(`/api/history_entries?page=` + params).then(response => {
-            setActivePage(parseInt(queryString.parseUrl(response.data['hydra:view']['@id']).query.page));
+            let viewData = response.data['hydra:view'];
+            if (viewData) {
+                setActivePage(parseInt(queryString.parseUrl(viewData['@id']).query.page));
+            }
             setEntries(response.data['hydra:member']);
             setTotalItemsCount(response.data['hydra:totalItems']);
             setLoading(false);
-        })
+        });
     }
 
     return (
@@ -34,7 +36,7 @@ export default function HistoryList() {
                             activePage={activePage}
                             itemsCountPerPage={10}
                             totalItemsCount={totalItemsCount}
-                            onChange={getUsers}
+                            onChange={getHistoryEntries}
                         />
                     </div>
                     {loading ? (
